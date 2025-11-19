@@ -1,0 +1,100 @@
+.teacher-dashboard {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 2rem;
+
+  // HEADER
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      img {
+        border-radius: 9999px;
+      }
+    }
+  }
+
+  // CARD WRAPPER SHARED STYLES
+  .card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.5rem;
+
+    .card-content {
+      padding: 1.5rem;
+    }
+  }
+
+  // REVENUE GRAPH SECTION
+  .revenue-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 16rem;
+  }
+
+  // COURSE TABLE
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead tr {
+      background-color: #f3f4f6;
+      text-align: left;
+
+      th {
+        padding: 0.75rem;
+        font-weight: 600;
+      }
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #e5e7eb;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      td {
+        padding: 0.75rem;
+        vertical-align: middle;
+
+        &.font-semibold {
+          font-weight: 600;
+        }
+
+        img {
+          width: 4rem;
+          height: 4rem;
+          border-radius: 0.5rem;
+        }
+
+        .actions {
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
+    }
+  }
+}
