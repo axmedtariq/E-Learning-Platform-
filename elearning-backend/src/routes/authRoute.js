@@ -1,7 +1,7 @@
-import express from "express";
-import { getProfile, updateProfile, updateProfilePicture, getPurchasedCourses, updateCourseProgress, logout } from "../controllers/userController.js";
-import authMiddleware from "../middleware/auth.js";
-import multer from "multer";
+const express = require ("express");
+const { getProfile, updateProfile, updateProfilePicture, getPurchasedCourses, updateCourseProgress, logout,login } = require("../Controllers/authController.js");
+const authMiddleware = require("../middleware/auth.js");
+const multer = require ("multer");
 
 const router = express.Router();
 
@@ -22,6 +22,10 @@ router.put("/profile", authMiddleware, updateProfile);
 router.put("/profile-picture", authMiddleware, upload.single("profile_picture"), updateProfilePicture);
 router.get("/purchased-courses", authMiddleware, getPurchasedCourses);
 router.put("/update-progress", authMiddleware, updateCourseProgress);
+router.post("/login", login);
 router.post("/logout", authMiddleware, logout);
 
-export default router;
+module.exports = {
+    register,login,logout
+    // ... other exports ...
+};

@@ -1,5 +1,5 @@
-import sql from "mssql";
-import dotenv from "dotenv";
+const sql = require ("mssql");
+const  dotenv = require ("dotenv");
 dotenv.config();
 
 const config = {
@@ -16,7 +16,7 @@ const config = {
 const pool = new sql.ConnectionPool(config);
 const poolConnect = pool.connect();
 
-export async function query(queryString, params = []) {
+const query  =async(queryString, params = []) => {
     await poolConnect;
     const request = pool.request();
     params.forEach((p, index) => {

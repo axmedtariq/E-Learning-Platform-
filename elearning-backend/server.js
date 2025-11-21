@@ -1,10 +1,10 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import userRoutes from "./src/routes/userRoutes.js";
-import instructorRoutes from "./src/routes/instructorRoutes.js";
-import adminRoutes from "./src/routes/adminRoute.js";
-import paymentRoutes from "./src/routes/paymentRoutes.js";
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const userRoutes = require("./src/routes/authRoute.js");
+const instructorRoutes = require("./src/routes/instructorRoutes.js");
+const adminRoutes = require("./src/routes/adminRoute.js");
+const paymentRoutes = require("./src/routes/paymentRoutes.js");
 
 dotenv.config();
 const app = express();

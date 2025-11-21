@@ -1,9 +1,9 @@
-import { query } from "../config/db.js";
-import fs from "fs";
-import path from "path";
+const  query = require ("../config/db.js");
+const fs = require ("fs");
+const path = require ("path");
 
 // VIEW PROFILE
-export const getProfile = async (req, res) => {
+ const getProfile = async (req, res) => {
     try {
         const { userId } = req; // From auth middleware
 
@@ -24,7 +24,7 @@ export const getProfile = async (req, res) => {
 };
 
 // UPDATE PROFILE (name, bio)
-export const updateProfile = async (req, res) => {
+ const updateProfile = async (req, res) => {
     try {
         const { userId } = req;
         const { name, bio } = req.body;
@@ -43,7 +43,7 @@ export const updateProfile = async (req, res) => {
 };
 
 // UPDATE PROFILE PICTURE
-export const updateProfilePicture = async (req, res) => {
+const updateProfilePicture = async (req, res) => {
     try {
         const { userId } = req;
         if (!req.file) return res.status(400).json({ message: "No file uploaded" });
@@ -71,7 +71,7 @@ export const updateProfilePicture = async (req, res) => {
 };
 
 // VIEW PURCHASED COURSES (with thumbnails)
-export const getPurchasedCourses = async (req, res) => {
+const getPurchasedCourses = async (req, res) => {
     try {
         const { userId } = req;
 
@@ -97,7 +97,7 @@ export const getPurchasedCourses = async (req, res) => {
 };
 
 // UPDATE COURSE PROGRESS
-export const updateCourseProgress = async (req, res) => {
+const updateCourseProgress = async (req, res) => {
     try {
         const { enrollmentId, progress } = req.body; // progress in %
         await query(`UPDATE Enrollments SET progress=@param0 WHERE id=@param1`, [progress, enrollmentId]);
@@ -108,6 +108,16 @@ export const updateCourseProgress = async (req, res) => {
 };
 
 // LOGOUT (frontend deletes token)
-export const logout = async (req, res) => {
+const logout = async (req, res) => {
     res.json({ message: "Logout successful. Delete token on frontend" });
+};
+
+
+module.exports = {
+    getProfile,
+    updateProfile,
+    updateProfilePicture,
+    getPurchasedCourses,
+    updateCourseProgress,
+    logout
 };
