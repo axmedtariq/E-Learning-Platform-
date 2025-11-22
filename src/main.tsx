@@ -6,11 +6,15 @@ import Home from "./pages/Home/bud.jsx";
 import Login from "./pages/Login/login.jsx";
 import RegisterPage from "./pages/Register/Auth.jsx";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword.jsx";
-import ResetPassword from "./pages/ResetPage/ResetPassword.jsx"; // ✅ your actual ResetPassword
+import ResetPassword from "./pages/ResetPage/ResetPassword.jsx";
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminDashboard from "./pages/Admin/Admin.jsx";
 
-createRoot(document.getElementById("root")!).render(
+// Safe null check for root container
+const container = document.getElementById("root");
+if (!container) throw new Error("Root element not found");
+
+createRoot(container).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
