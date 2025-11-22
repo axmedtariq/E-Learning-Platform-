@@ -72,18 +72,40 @@
   }
 }
 
+/* ---------------------------- Buttons ---------------------------- */
 .auth-btn {
-  width: 100%;
+  width: 90%;          /* smaller width, professional look */
+  max-width: 16rem;    /* optional max width */
   background: #2563eb;
   color: #fff;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
+  padding: 0.65rem;
+  border-radius: 0.5rem;
   font-weight: 600;
+  font-size: 0.95rem;
   border: none;
   cursor: pointer;
+  margin: 1rem auto 0 auto; /* center horizontally */
+  display: block;
   transition: 0.2s;
 
   &:hover {
     background: #1e40af;
+  }
+}
+
+/* Link inside paragraph */
+.login-link {
+  font-weight: 600;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+  }
+
+  .auth-btn {
+    width: 100%;
+    max-width: none;
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import "./LoginPage.scss";
+import { Link } from "react-router-dom";
+import "./Login.scss";
 
 export default function LoginPage() {
   return (
@@ -19,11 +20,16 @@ export default function LoginPage() {
           </div>
 
           <div className="links">
-            <a href="#">Forgot Password?</a>
-            <a href="#">Register</a>
+            {/* ✅ Link to Forgot Password Page */}
+            <Link to="/forgot-password" className="forgot-link">
+              Forgot Password?
+            </Link>
+
+            <Link to="/register">Register</Link>
           </div>
         </div>
 
+        {/* ✅ Login button outside of links */}
         <button className="login-btn">Login</button>
       </div>
     </div>

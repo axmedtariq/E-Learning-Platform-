@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ForgetPassword.scss";
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Reset link sent to:", email);
+    // You can add actual email sending logic here
   };
 
   return (
@@ -28,9 +32,17 @@ export default function ForgetPassword() {
           <button type="submit">Send Reset Link</button>
         </form>
 
-        <a href="/login" className="back-login">
-          ← Back to Login
-        </a>
+        <div className="links">
+          {/* Link to Reset Password page */}
+          <Link to="/reset-password" className="reset-link">
+            Go to Reset Password →
+          </Link>
+
+          {/* Link back to login */}
+          <Link to="/login" className="back-login">
+            ← Back to Login
+          </Link>
+        </div>
       </div>
     </div>
   );

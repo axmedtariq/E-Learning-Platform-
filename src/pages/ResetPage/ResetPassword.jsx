@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import
 import "./ResetPassword.scss";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const navigate = useNavigate(); // ✅ hook to navigate programmatically
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,7 +13,10 @@ export default function ResetPassword() {
       alert("Passwords do not match!");
       return;
     }
+
     console.log("Password reset!");
+    // ✅ Navigate to login page after successful reset
+    navigate("/login");
   };
 
   return (
@@ -42,9 +47,10 @@ export default function ResetPassword() {
           <button type="submit">Reset Password</button>
         </form>
 
-        <a href="/login" className="back-login">
-          ← Back to Login
-        </a>
+        {/* Optional: still keep a manual back link */}
+        <p className="back-login">
+          <a href="/login">← Back to Login</a>
+        </p>
       </div>
     </div>
   );

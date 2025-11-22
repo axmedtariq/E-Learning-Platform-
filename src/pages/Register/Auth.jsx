@@ -1,8 +1,9 @@
 import React from "react";
-import "./AuthPages.scss";
+import { Link } from "react-router-dom";
+import "./AuthPage.scss";
 
 // ---------------------------- REGISTER PAGE ----------------------------
-export function RegisterPage() {
+export default function RegisterPage() {
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -25,7 +26,9 @@ export function RegisterPage() {
           </div>
 
           <div className="link-right">
-            <a href="#">Login</a>
+            <p>
+              Already have an account? <Link to="/login" className="login-link">Login</Link>
+            </p>
           </div>
         </div>
 

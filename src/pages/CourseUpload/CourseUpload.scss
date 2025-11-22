@@ -1,0 +1,43 @@
+.quiz-title,
+.assignment-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+
+.quiz-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.quiz-question-box {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+
+  input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+
+    &:focus {
+      border-color: #6366f1;
+      outline: none;
+    }
+  }
+}
+
+.assignment-title {
+  margin-top: 1.5rem;
+}
+
+textarea {
+  resize: none;
+}

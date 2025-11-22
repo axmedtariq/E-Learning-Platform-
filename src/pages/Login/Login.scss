@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f9fafb;
+  background: linear-gradient(135deg, #f3f4f6, #e0f2fe);
   padding: 1rem;
 }
 
@@ -11,51 +11,58 @@
   width: 100%;
   max-width: 28rem;
   background: #ffffff;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .login-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   text-align: center;
+  color: #111827;
 }
 
 .form-group {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 
   .label {
     display: block;
     font-size: 0.875rem;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    color: #374151;
   }
 
   .input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.65rem 0.75rem;
     border: 1px solid #d1d5db;
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
     outline: none;
-    transition: 0.2s;
+    font-size: 0.95rem;
+    transition: 0.25s;
 
     &:focus {
       border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
     }
   }
 
   .links {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     display: flex;
     justify-content: space-between;
     font-size: 0.875rem;
 
     a {
       color: #2563eb;
-      text-decoration: none;
-      transition: 0.2s;
+      transition: 0.25s;
 
       &:hover {
         text-decoration: underline;
@@ -65,18 +72,31 @@
 }
 
 .login-btn {
-  width: 100%;
-  margin-top: 1.5rem;
+  width: 50%; /* smaller button */
+  display: block;
+  margin: 2rem auto 0;
   background: #2563eb;
   color: #fff;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.5rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 0.95rem;
+  transition: 0.25s;
 
   &:hover {
     background: #1e40af;
+  }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-btn {
+    width: 70%;
   }
 }
