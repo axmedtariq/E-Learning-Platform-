@@ -3,11 +3,11 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home/bud.jsx";
-import Login from "./pages/Login/login.jsx";
+import Login from "./pages/Login/Login.jsx";
 import RegisterPage from "./pages/Register/Auth.jsx";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword.jsx";
 import ResetPassword from "./pages/ResetPage/ResetPassword.jsx";
-import AdminLogin from "./pages/admin/AdminLogin.jsx";
+import AdminLogin from "./pages/Admin/AdminLogin.jsx";
 import AdminDashboard from "./pages/Admin/Admin.jsx";
 
 // Safe null check for root container
