@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Install frontend dependencies (Vite + TS)
+      # 3. Install frontend dependencies (Vite + TS + JSX)
       - name: Install frontend dependencies
         run: npm ci
 
@@ -62,15 +62,21 @@ jobs:
       - name: Install Node types
         run: npm install @types/node --save-dev
 
-      # 5. Run frontend tests (optional)
+      # 5. Ensure Vite env types exist
+      - name: Add vite-env.d.ts if missing
+        run: |
+          echo '/// <reference types="vite/client" />' > src/vite-env.d.ts
+          echo 'declare module "*.svg" { const content: string; export default content }' >> src/vite-env.d.ts
+
+      # 6. Run frontend tests (optional)
       - name: Run frontend tests
         run: npm test || echo "No frontend tests configured"
 
-      # 6. Build frontend (Vite)
+      # 7. Build frontend (Vite + TS)
       - name: Build frontend
         run: npm run build
 
-      # 7. Upload frontend build artifact
+      # 8. Upload frontend build artifact
       - name: Upload frontend build
         uses: actions/upload-artifact@v4
         with:
