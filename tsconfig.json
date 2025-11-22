@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "Node"
+    "target": "ESNext",                  // Modern JS
+    "module": "ESNext",                  // Vite requires ESNext
+    "moduleResolution": "nodenext",      // Fixes Vite #types resolution
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,                // Avoids type errors in node_modules
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],                   // Include Node types
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true              // Required for Vite + TS
   },
-  "include": ["vite.config.ts"]
+  "include": ["src", "vite.config.ts"],  // Include Vite config for TS
+  "exclude": ["node_modules", "dist"]    // Exclude build folder
 }

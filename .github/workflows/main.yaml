@@ -54,19 +54,23 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Install frontend dependencies (Vite React is in root)
+      # 3. Install frontend dependencies (Vite + TS)
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
 
-      # 4. Run frontend tests
+      # 4. Install Node types (TypeScript fix)
+      - name: Install Node types
+        run: npm install @types/node --save-dev
+
+      # 5. Run frontend tests (optional)
       - name: Run frontend tests
         run: npm test || echo "No frontend tests configured"
 
-      # 5. Build frontend (Vite)
+      # 6. Build frontend (Vite)
       - name: Build frontend
         run: npm run build
 
-      # 6. Upload frontend build artifact
+      # 7. Upload frontend build artifact
       - name: Upload frontend build
         uses: actions/upload-artifact@v4
         with:
