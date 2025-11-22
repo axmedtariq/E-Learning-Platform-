@@ -13,22 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
+      # 3. Install backend dependencies
       - name: Install backend dependencies
         working-directory: ./elearning-backend
         run: npm install
 
+      # 4. Run backend tests
       - name: Run backend tests
         working-directory: ./elearning-backend
         run: npm test || echo "No backend tests configured"
 
+      # 5. Optional backend build
       - name: Build backend
         working-directory: ./elearning-backend
         run: npm run build || echo "No backend build script"
@@ -39,28 +44,31 @@ jobs:
     needs: backend
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
+      # 3. Install frontend dependencies (Vite React is in root)
       - name: Install frontend dependencies
-        working-directory: ./frontend
         run: npm install
 
+      # 4. Run frontend tests
       - name: Run frontend tests
-        working-directory: ./frontend
         run: npm test || echo "No frontend tests configured"
 
+      # 5. Build frontend (Vite)
       - name: Build frontend
-        working-directory: ./frontend
         run: npm run build
 
+      # 6. Upload frontend build artifact
       - name: Upload frontend build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: ./frontend/dist
+          path: ./dist
