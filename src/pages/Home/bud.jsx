@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
