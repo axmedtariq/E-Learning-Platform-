@@ -1,11 +1,11 @@
-import { query } from "../config/db.js";
+const { query } = require ("../config/db.js");
 
 // =======================
 // Courses APIs
 // =======================
 
 // Get all courses by instructor
-export const getCourses = async (req, res) => {
+ const getCourses = async (req, res) => {
     try {
         const instructorId = req.userId;
         const result = await query(
@@ -19,7 +19,7 @@ export const getCourses = async (req, res) => {
 };
 
 // Create course
-export const createCourse = async (req, res) => {
+ const createCourse = async (req, res) => {
     try {
         const { title, description, price, thumbnail, preview_video } = req.body;
         const instructorId = req.userId;
@@ -36,7 +36,7 @@ export const createCourse = async (req, res) => {
 };
 
 // Update course
-export const updateCourse = async (req, res) => {
+ const updateCourse = async (req, res) => {
     try {
         const { courseId } = req.params;
         const { title, description, price, thumbnail, preview_video } = req.body;
@@ -53,7 +53,7 @@ export const updateCourse = async (req, res) => {
 };
 
 // Delete course
-export const deleteCourse = async (req, res) => {
+ const deleteCourse = async (req, res) => {
     try {
         const { courseId } = req.params;
         await query(`DELETE FROM Courses WHERE id=@param0`, [courseId]);
@@ -68,7 +68,7 @@ export const deleteCourse = async (req, res) => {
 // =======================
 
 // Get lessons of a course
-export const getLessons = async (req, res) => {
+ const getLessons = async (req, res) => {
     try {
         const { courseId } = req.params;
         const lessons = await query(
@@ -82,7 +82,7 @@ export const getLessons = async (req, res) => {
 };
 
 // Create lesson
-export const createLesson = async (req, res) => {
+ const createLesson = async (req, res) => {
     try {
         const { courseId } = req.params;
         const { title, video, description, is_preview, position } = req.body;
@@ -99,7 +99,7 @@ export const createLesson = async (req, res) => {
 };
 
 // Update lesson
-export const updateLesson = async (req, res) => {
+ const updateLesson = async (req, res) => {
     try {
         const { lessonId } = req.params;
         const { title, video, description, is_preview, position } = req.body;
@@ -116,7 +116,7 @@ export const updateLesson = async (req, res) => {
 };
 
 // Delete lesson
-export const deleteLesson = async (req, res) => {
+ const deleteLesson = async (req, res) => {
     try {
         const { lessonId } = req.params;
         await query(`DELETE FROM Lessons WHERE id=@param0`, [lessonId]);
@@ -131,7 +131,7 @@ export const deleteLesson = async (req, res) => {
 // =======================
 
 // Get quizzes for lesson
-export const getQuizzes = async (req, res) => {
+ const getQuizzes = async (req, res) => {
     try {
         const { lessonId } = req.params;
         const quizzes = await query("SELECT * FROM Quizzes WHERE lesson_id=@param0", [lessonId]);
@@ -142,7 +142,7 @@ export const getQuizzes = async (req, res) => {
 };
 
 // Create quiz
-export const createQuiz = async (req, res) => {
+const createQuiz = async (req, res) => {
     try {
         const { lessonId } = req.params;
         const { question, options, correct_answer } = req.body;
@@ -159,7 +159,7 @@ export const createQuiz = async (req, res) => {
 };
 
 // Update quiz
-export const updateQuiz = async (req, res) => {
+ const updateQuiz = async (req, res) => {
     try {
         const { quizId } = req.params;
         const { question, options, correct_answer } = req.body;
@@ -176,7 +176,7 @@ export const updateQuiz = async (req, res) => {
 };
 
 // Delete quiz
-export const deleteQuiz = async (req, res) => {
+ const deleteQuiz = async (req, res) => {
     try {
         const { quizId } = req.params;
         await query(`DELETE FROM Quizzes WHERE id=@param0`, [quizId]);
@@ -190,7 +190,7 @@ export const deleteQuiz = async (req, res) => {
 // Instructor Revenue & Logout
 // =======================
 
-export const getCourseRevenue = async (req, res) => {
+ const getCourseRevenue = async (req, res) => {
     try {
         const instructorId = req.userId;
         const result = await query(
@@ -208,7 +208,7 @@ export const getCourseRevenue = async (req, res) => {
 };
 
 // Get instructor profile
-export const getProfile = async (req, res) => {
+ const getProfile = async (req, res) => {
     try {
         const instructorId = req.userId;
         const result = await query(
@@ -225,7 +225,7 @@ export const getProfile = async (req, res) => {
 };
 
 // Update profile (name, bio)
-export const updateProfile = async (req, res) => {
+ const updateProfile = async (req, res) => {
     try {
         const instructorId = req.userId;
         const { name, bio } = req.body;
@@ -241,7 +241,7 @@ export const updateProfile = async (req, res) => {
 };
 
 // Update profile picture
-export const updateProfilePicture = async (req, res) => {
+ const updateProfilePicture = async (req, res) => {
     try {
         const instructorId = req.userId;
         const profilePicturePath = req.file ? req.file.path : null;
@@ -260,7 +260,31 @@ export const updateProfilePicture = async (req, res) => {
     }
 };
 
-export const logout = async (req, res) => {
+ const logout = async (req, res) => {
     // Invalidate token on frontend
     res.json({ message: "Instructor logged out successfully" });
+};
+
+
+// =======================
+// Export all functions
+// =======================
+module.exports = {
+    getCourses,
+    createCourse,
+    updateCourse,
+    deleteCourse,
+    getLessons,
+    createLesson,
+    updateLesson,
+    deleteLesson,
+    getQuizzes,
+    createQuiz,
+    updateQuiz,
+    deleteQuiz,
+    getCourseRevenue,
+    getProfile,
+    updateProfile,
+    updateProfilePicture,
+    logout
 };

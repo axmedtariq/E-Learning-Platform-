@@ -1,7 +1,7 @@
-import express from "express";
-import authMiddleware from "../middleware/auth.js";
-import multer from "multer";
-import { 
+const express = require("express");
+const authMiddleware = require ("../middleware/auth.js");
+const multer = require("multer");
+const { 
     registerInstructor,
     createCourse,
     createLesson,
@@ -10,7 +10,7 @@ import {
     updateProfile,
     updateProfilePicture,
     logout
-} from "../instructorcontroller.js";
+} = require ("../Controllers/instructorcontroller.js");
 
 const router = express.Router();
 
@@ -35,4 +35,4 @@ router.put("/profile", authMiddleware, updateProfile);
 router.put("/profile-picture", authMiddleware, upload.single("profile_picture"), updateProfilePicture);
 router.post("/logout", authMiddleware, logout);
 
-export default router;
+module.exports = router()
