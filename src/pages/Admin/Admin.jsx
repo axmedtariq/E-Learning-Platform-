@@ -1,5 +1,5 @@
-import { Card, CardContent } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
+import { Card, CardContent } from "../../Components/ui/card.jsx";
+import { Button } from "../../Components/ui/button.jsx";
 import { Settings, LogOut, Users, BookOpen, DollarSign } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import "./Admin.scss";
