@@ -1,6 +1,7 @@
-import express from "express";
-import authMiddleware from "../middleware/auth.js";
-import { createPaymentIntent, handlePaymentWebhook, getInstructorRevenue, getAdminRevenue } from "../paymentcontroller.js";
+const express = require ("express");
+const authMiddleware = require ("../middleware/auth.js");
+const { createPaymentIntent, handlePaymentWebhook, getInstructorRevenue, getAdminRevenue } = require("../Controllers/paymentController.js");
+
 
 const router = express.Router();
 
@@ -13,4 +14,4 @@ router.get("/instructor", authMiddleware, getInstructorRevenue);
 // Admin revenue
 router.get("/admin", authMiddleware, getAdminRevenue);
 
-export default router;
+module.exports = router;

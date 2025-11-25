@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -17,14 +16,8 @@ export default function Bud() {
     autoplay: true,
     autoplaySpeed: 4000,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1 },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } },
     ],
   };
 
@@ -33,11 +26,10 @@ export default function Bud() {
       {/* Navbar */}
       <nav className="navbar-container">
         <div className="nav-logo">E-Learn</div>
-
         <ul className="nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Courses</a></li>
-          <li><a href="#">Instructors</a></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/courses">Courses</Link></li>
+          <li><Link to="/instructors">Instructors</Link></li>
           <li><Link to="/login" className="login-btn">Login</Link></li>
         </ul>
       </nav>
@@ -57,9 +49,7 @@ export default function Bud() {
             <div className="course-card" key={i}>
               <div className="thumbnail"></div>
               <h3>{course}</h3>
-              <p>
-                Rating: <StarIcon className="star-icon" /> 4.{i + 5}
-              </p>
+              <p>Rating: <StarIcon className="star-icon" /> 4.{i + 5}</p>
             </div>
           ))}
         </div>
@@ -74,9 +64,7 @@ export default function Bud() {
               <div className="thumbnail"></div>
               <h3>Course {i + 1}</h3>
               <p>Teacher: John Doe</p>
-              <p>
-                Rating: <StarIcon className="star-icon" /> 4.{i}
-              </p>
+              <p>Rating: <StarIcon className="star-icon" /> 4.{i}</p>
               <p>$19.99</p>
             </div>
           ))}
@@ -86,7 +74,6 @@ export default function Bud() {
       {/* Testimonial Carousel */}
       <section className="testimonial-section">
         <h2>What Students Say</h2>
-
         <Slider {...testimonialSettings}>
           {[
             { text: "This course helped me land my first developer job!", name: "Sarah K." },
@@ -105,11 +92,9 @@ export default function Bud() {
       {/* Footer */}
       <footer className="footer-modern">
         <div className="footer-container">
-
           <div className="footer-brand">
             <h2>E-Learn</h2>
             <p>Your trusted platform to learn modern skills.</p>
-
             <div className="social-links">
               <a href="#">Facebook</a>
               <a href="#">Twitter</a>
@@ -120,23 +105,23 @@ export default function Bud() {
 
           <div className="footer-links">
             <h3>Company</h3>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-            <a href="#">Careers</a>
+            <Link to="/about">About Us</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/careers">Careers</Link>
           </div>
 
           <div className="footer-links">
             <h3>Support</h3>
-            <a href="#">FAQ</a>
-            <a href="#">Help Center</a>
-            <a href="#">Community</a>
+            <Link to="/faq">FAQ</Link>
+            <Link to="/help">Help Center</Link>
+            <Link to="/community">Community</Link>
           </div>
 
           <div className="footer-links">
             <h3>Legal</h3>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Refund Policy</a>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms of Service</Link>
+            <Link to="/refund">Refund Policy</Link>
           </div>
         </div>
 
@@ -144,7 +129,6 @@ export default function Bud() {
           © 2025 E-Learn. All rights reserved.
         </div>
       </footer>
-
     </div>
   );
 }

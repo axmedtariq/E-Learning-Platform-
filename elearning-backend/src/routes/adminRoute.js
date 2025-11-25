@@ -1,6 +1,6 @@
-import express from "express";
-import authMiddleware from "../middleware/auth.js";
-import {
+const express = require ("express");
+const authMiddleware = require ("../middleware/auth.js");
+const {
     adminLogin,
     createAdmin,
     getAllStudents,
@@ -12,7 +12,7 @@ import {
     deleteCourse,
     systemStats,
     revenueByTime
-} from "../admincontroller.js";
+} = require ("../Controllers/admincontroller.js");
 
 const router = express.Router();
 
@@ -37,4 +37,4 @@ router.delete("/courses/:courseId", authMiddleware, deleteCourse);
 router.get("/stats", authMiddleware, systemStats);
 router.get("/revenue", authMiddleware, revenueByTime);
 
-export default router;
+module.exports = router;

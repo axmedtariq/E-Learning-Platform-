@@ -1,15 +1,21 @@
-import stripe from "../config/stripe.js";
-import { query } from "../config/db.js";
+const { query } = require("../config/db.js");
+const Stripe = require("stripe");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // CREATE STRIPE PAYMENT INTENT
-export const createPaymentIntent = async (req, res) => {
+const createPaymentIntent = async (req, res) => {
     try {
-        const { studentId } = req;
+        const studentId = req.userId; // from auth middleware
         const { courseId } = req.body;
 
-        // Fetch course price & instructor
-        const courseResult = await query(`SELECT price, instructor_id FROM Courses WHERE id=@param0`, [courseId]);
-        if (!courseResult.recordset.length) return res.status(404).json({ message: "Course not found" });
+        // Fetch course
+        const courseResult = await query(
+            "SELECT price, instructor_id FROM Courses WHERE id=@param0",
+            [courseId]
+        );
+        if (!courseResult.recordset.length) {
+            return res.status(404).json({ message: "Course not found" });
+        }
 
         const course = courseResult.recordset[0];
         const amount = course.price * 100; // Stripe expects cents
@@ -17,7 +23,11 @@ export const createPaymentIntent = async (req, res) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(amount),
             currency: "usd",
-            metadata: { courseId, studentId, instructorId: course.instructor_id }
+            metadata: {
+                courseId,
+                studentId,
+                instructorId: course.instructor_id
+            }
         });
 
         res.json({ clientSecret: paymentIntent.client_secret });
@@ -26,8 +36,8 @@ export const createPaymentIntent = async (req, res) => {
     }
 };
 
-// CONFIRM PAYMENT (Webhook)
-export const handlePaymentWebhook = async (req, res) => {
+// HANDLE STRIPE WEBHOOK
+const handlePaymentWebhook = async (req, res) => {
     const sig = req.headers["stripe-signature"];
     let event;
 
@@ -44,7 +54,7 @@ export const handlePaymentWebhook = async (req, res) => {
         const instructorId = paymentIntent.metadata.instructorId;
         const totalAmount = paymentIntent.amount_received / 100;
 
-        const systemCut = totalAmount * 0.18;      // 18% system cut
+        const systemCut = totalAmount * 0.18;
         const instructorEarnings = totalAmount - systemCut;
 
         // Insert payment record
@@ -55,8 +65,9 @@ export const handlePaymentWebhook = async (req, res) => {
         );
 
         // Enroll student
-        const enrollment = await query(
-            `INSERT INTO Enrollments (user_id, course_id, progress, purchased_at) VALUES (@param0,@param1,0,GETDATE())`,
+        await query(
+            `INSERT INTO Enrollments (user_id, course_id, progress, purchased_at)
+             VALUES (@param0,@param1,0,GETDATE())`,
             [studentId, courseId]
         );
     }
@@ -64,11 +75,10 @@ export const handlePaymentWebhook = async (req, res) => {
     res.json({ received: true });
 };
 
-// GET STUDENT PURCHASED COURSES (already in student module)
 // GET INSTRUCTOR REVENUE
-export const getInstructorRevenue = async (req, res) => {
+const getInstructorRevenue = async (req, res) => {
     try {
-        const { userId } = req; // instructor
+        const userId = req.userId;
         const result = await query(
             `SELECT c.title, p.amount, p.system_cut, p.instructor_earnings, p.created_at
              FROM Payments p
@@ -76,7 +86,6 @@ export const getInstructorRevenue = async (req, res) => {
              WHERE p.instructor_id=@param0`,
             [userId]
         );
-
         res.json(result.recordset);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -84,11 +93,19 @@ export const getInstructorRevenue = async (req, res) => {
 };
 
 // GET ADMIN REVENUE
-export const getAdminRevenue = async (req, res) => {
+const getAdminRevenue = async (req, res) => {
     try {
         const result = await query(`SELECT ISNULL(SUM(system_cut),0) AS systemRevenue FROM Payments`);
         res.json({ systemRevenue: result.recordset[0].systemRevenue });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
+};
+
+// Export all functions
+module.exports = {
+    createPaymentIntent,
+    handlePaymentWebhook,
+    getInstructorRevenue,
+    getAdminRevenue
 };
