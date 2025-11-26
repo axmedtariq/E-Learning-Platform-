@@ -11,15 +11,29 @@ export default function Bud() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 2,       // show fewer for bigger cards
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
+    centerMode: true,       // center current slide
+    centerPadding: "0px",   // remove side padding
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 1024, settings: { slidesToShow: 1 } },
       { breakpoint: 600, settings: { slidesToShow: 1 } },
     ],
   };
+
+  const topCourses = ["React for Beginners", "JavaScript Essentials", "CSS Masterclass"];
+  const allCourses = [
+    "React Advanced",
+    "Node.js Basics",
+    "Python for Data Science",
+    "CSS Animations",
+    "Vue.js Essentials",
+    "Angular Mastery",
+    "TypeScript Fundamentals",
+    "Fullstack Project",
+  ];
 
   return (
     <div className="Navbar">
@@ -45,11 +59,17 @@ export default function Bud() {
       <section className="courses-section">
         <h2>Top Rated Courses</h2>
         <div className="courses-grid">
-          {["React for Beginners", "JavaScript Essentials", "CSS Masterclass"].map((course, i) => (
-            <div className="course-card" key={i}>
+          {topCourses.map((course, i) => (
+            <div className="course-card professional-card" key={i}>
               <div className="thumbnail"></div>
               <h3>{course}</h3>
-              <p>Rating: <StarIcon className="star-icon" /> 4.{i + 5}</p>
+              <div className="rating-row">
+                {[...Array(5)].map((_, idx) => (
+                  <StarIcon key={idx} className="star-icon" />
+                ))}
+                <span className="numeric-rating">4.{i + 5}</span>
+              </div>
+              <p className="course-price">$19.99</p>
             </div>
           ))}
         </div>
@@ -59,13 +79,17 @@ export default function Bud() {
       <section className="courses-section">
         <h2>All Courses</h2>
         <div className="courses-grid">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div className="course-card" key={i}>
+          {allCourses.map((course, i) => (
+            <div className="course-card professional-card" key={i}>
               <div className="thumbnail"></div>
-              <h3>Course {i + 1}</h3>
-              <p>Teacher: John Doe</p>
-              <p>Rating: <StarIcon className="star-icon" /> 4.{i}</p>
-              <p>$19.99</p>
+              <h3>{course}</h3>
+              <div className="rating-row">
+                {[...Array(5)].map((_, idx) => (
+                  <StarIcon key={idx} className="star-icon" />
+                ))}
+                <span className="numeric-rating">4.{i}</span>
+              </div>
+              <p className="course-price">$19.99</p>
             </div>
           ))}
         </div>
