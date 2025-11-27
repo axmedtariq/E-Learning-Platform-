@@ -1,28 +1,98 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./AuthPage.scss";
 
-// ---------------------------- REGISTER PAGE ----------------------------
 export default function RegisterPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student"); // default role
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("http://localhost:5731/api/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, role }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || "Registration failed");
+      }
+
+      const data = await res.json();
+      alert(data.message); // show success message
+      navigate("/login"); // redirect to login
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1 className="auth-title">Create Your Account</h1>
 
-        <div className="form-group">
+        {error && <p className="error-text">{error}</p>}
+
+        <form className="form-group" onSubmit={handleRegister}>
           <div>
             <label className="label">Full Name</label>
-            <input type="text" className="input" placeholder="Enter full name" />
+            <input
+              type="text"
+              className="input"
+              placeholder="Enter full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
 
           <div>
             <label className="label">Email</label>
-            <input type="email" className="input" placeholder="Enter your email" />
+            <input
+              type="email"
+              className="input"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
 
           <div>
             <label className="label">Password</label>
-            <input type="password" className="input" placeholder="Create password" />
+            <input
+              type="password"
+              className="input"
+              placeholder="Create password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="label">Role</label>
+            <select
+              className="input"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="student">Student</option>
+              <option value="instructor">Instructor</option>
+              {/* Admin hidden */}
+            </select>
           </div>
 
           <div className="link-right">
@@ -30,54 +100,11 @@ export default function RegisterPage() {
               Already have an account? <Link to="/login" className="login-link">Login</Link>
             </p>
           </div>
-        </div>
 
-        <button className="auth-btn">Register</button>
-      </div>
-    </div>
-  );
-}
-
-// ------------------------ FORGOT PASSWORD PAGE ------------------------
-export function ForgotPasswordPage() {
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Forgot Password</h1>
-
-        <p className="sub-text">Enter your email to receive reset instructions.</p>
-
-        <div>
-          <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Enter your email" />
-        </div>
-
-        <button className="auth-btn">Send Reset Link</button>
-      </div>
-    </div>
-  );
-}
-
-// ------------------------------ RESET PAGE ------------------------------
-export function ResetPasswordPage() {
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Reset Password</h1>
-
-        <div className="form-group">
-          <div>
-            <label className="label">New Password</label>
-            <input type="password" className="input" placeholder="Enter new password" />
-          </div>
-
-          <div>
-            <label className="label">Confirm Password</label>
-            <input type="password" className="input" placeholder="Confirm new password" />
-          </div>
-        </div>
-
-        <button className="auth-btn">Reset Password</button>
+          <button className="auth-btn" type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
+const { query } = require("../config/db.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const query = require("../config/db.js");
 const fs = require("fs");
 const path = require("path");
 
@@ -105,11 +105,13 @@ const getProfile = async (req, res) => {
   }
 };
 
+// -------------------- UPDATE PROFILE --------------------
 const updateProfile = async (req, res) => {
   try {
-    const { userId } = req;
+    const { userId } = req; // From authMiddleware
     const { name, bio } = req.body;
 
+    // Update the user's profile
     await query(
       `UPDATE Users
        SET name=@param0, bio=@param1, updated_at=GETDATE()
@@ -117,9 +119,20 @@ const updateProfile = async (req, res) => {
       [name, bio, userId]
     );
 
-    res.json({ message: "Profile updated successfully" });
+    // Fetch the updated user
+    const updatedUser = await query(
+      `SELECT id, name, email, role, bio, profile_picture FROM Users WHERE id=@param0`,
+      [userId]
+    );
+
+    // Return updated user
+    res.json({
+      message: "Profile updated successfully",
+      user: updatedUser.recordset[0],
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -145,7 +158,13 @@ const updateProfilePicture = async (req, res) => {
       [filePath, userId]
     );
 
-    res.json({ message: "Profile picture updated", profile_picture: filePath });
+    // Return updated user
+    const updatedUser = await query(
+      `SELECT id, name, email, role, bio, profile_picture FROM Users WHERE id=@param0`,
+      [userId]
+    );
+
+    res.json(updatedUser.recordset[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
