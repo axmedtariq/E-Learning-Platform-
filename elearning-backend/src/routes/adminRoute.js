@@ -1,40 +1,31 @@
-const express = require ("express");
-const authMiddleware = require ("../middleware/auth.js");
-const {
-    adminLogin,
-    createAdmin,
-    getAllStudents,
-    deleteStudent,
-    getAllInstructors,
-    approveInstructor,
-    rejectInstructor,
-    getAllCourses,
-    deleteCourse,
-    systemStats,
-    revenueByTime
-} = require ("../Controllers/admincontroller.js");
-
+const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../middleware/auth.js");
 
-// Admin login / create (one-time)
-router.post("/create", createAdmin);
-router.post("/login", adminLogin);
+// Import admin controller functions
+const adminController = require("../Controllers/adminController.js");
 
-// Students CRUD
-router.get("/students", authMiddleware, getAllStudents);
-router.delete("/students/:studentId", authMiddleware, deleteStudent);
+// Admin login / create
+router.post("/create", adminController.createAdmin);
+router.post("/login", adminController.adminLogin);
 
-// Instructors CRUD
-router.get("/instructors", authMiddleware, getAllInstructors);
-router.put("/instructors/approve/:instructorId", authMiddleware, approveInstructor);
-router.put("/instructors/reject/:instructorId", authMiddleware, rejectInstructor);
+// Students routes
+router.get("/students", authMiddleware, adminController.getAllStudents);
+router.delete("/students/:studentId", authMiddleware, adminController.deleteStudent);
 
-// Courses CRUD
-router.get("/courses", authMiddleware, getAllCourses);
-router.delete("/courses/:courseId", authMiddleware, deleteCourse);
+// Instructors routes
+router.get("/instructors", authMiddleware, adminController.getAllInstructors);
+router.patch("/instructors/approve/:instructorId", authMiddleware, adminController.approveInstructor);
+router.patch("/instructors/reject/:instructorId", authMiddleware, adminController.rejectInstructor);
 
-// Reports
-router.get("/stats", authMiddleware, systemStats);
-router.get("/revenue", authMiddleware, revenueByTime);
+// Courses routes
+router.get("/courses", authMiddleware, adminController.getAllCourses);
+router.delete("/courses/:courseId", authMiddleware, adminController.deleteCourse);
+
+// System stats
+router.get("/stats", authMiddleware, adminController.systemStats);
+
+// Revenue
+router.get("/revenue", authMiddleware, adminController.revenueByTime);
 
 module.exports = router;

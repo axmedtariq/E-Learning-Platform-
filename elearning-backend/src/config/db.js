@@ -4,33 +4,43 @@ dotenv.config();
 
 // ---------------- SQL Server Configuration ----------------
 const config = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  port: parseInt(process.env.DB_PORT) || 1433,
-  options: {
-    encrypt: false,
-    trustServerCertificate: process.env.DB_TRUST_CERT === "true",
-  },
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_DATABASE,
+    port: parseInt(process.env.DB_PORT) || 1433,
+    options: {
+        encrypt: false, // for local dev, set true if using Azure
+        trustServerCertificate: true
+    }
 };
 
-const pool = new sql.ConnectionPool(config);
-const poolConnect = pool.connect();
+// Create a connection pool and export a query function
+const poolPromise = new sql.ConnectionPool(config)
+    .connect()
+    .then(pool => {
+        console.log("✅ SQL Server Connected to database:", config.database);
+        return pool;
+    })
+    .catch(err => {
+        console.error("❌ Database connection failed: ", err);
+        process.exit(1);
+    });
 
-poolConnect
-  .then(() => console.log(`✅ SQL Server Connected to database "${config.database}" on server "${config.server}"`))
-  .catch(err => console.error("❌ SQL Connection Error:", err));
-
-// ---------------- QUERY FUNCTION ----------------
+// Generic query function using async/await
 const query = async (queryString, params = []) => {
-  await poolConnect;
-  const request = pool.request();
-  params.forEach((p, index) => {
-    request.input(`param${index}`, p);
-  });
-  return request.query(queryString);
+    try {
+        const pool = await poolPromise;
+        const request = pool.request();
+        // Add input parameters dynamically
+        params.forEach((param, index) => {
+            request.input(`param${index}`, param);
+        });
+        const result = await request.query(queryString);
+        return result;
+    } catch (err) {
+        throw err;
+    }
 };
 
-// Export the query function directly
 module.exports = { query };
