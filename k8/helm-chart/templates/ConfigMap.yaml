@@ -1,0 +1,23 @@
+{{- if .Values.env.backend }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+{{- range $key, $value := .Values.env.backend }}
+  {{ $key }}: "{{ $value }}"
+{{- end }}
+{{- end }}
+
+---
+
+{{- if .Values.env.frontend }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+{{- range $key, $value := .Values.env.frontend }}
+  {{ $key }}: "{{ $value }}"
+{{- end }}
+{{- end }}

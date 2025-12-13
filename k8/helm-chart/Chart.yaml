@@ -1,0 +1,6 @@
+apiVersion: v2
+name: elearning
+description: A Helm chart for E-Learning Platform
+type: application
+version: 0.1.0
+appVersion: "1.0"

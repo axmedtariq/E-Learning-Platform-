@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: ./elearning-backend   # correct folder name
+      dockerfile: Dockerfile
+    ports:
+      - "5731:5731"
+    volumes:
+      - ./elearning-backend/uploads:/app/uploads
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./frontend            # make sure this matches your frontend folder
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"

@@ -1,46 +1,24 @@
-const sql = require("mssql");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// ---------------- SQL Server Configuration ----------------
-const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
-    database: process.env.DB_DATABASE,
-    port: parseInt(process.env.DB_PORT) || 1433,
-    options: {
-        encrypt: false, // for local dev, set true if using Azure
-        trustServerCertificate: true
-    }
-};
+const DB_SERVER = process.env.DB_SERVER || "localhost";
+const DB_PORT = process.env.DB_PORT || 27017;
+const DB_DATABASE = process.env.DB_DATABASE || "Elearning_SAAS";
 
-// Create a connection pool and export a query function
-const poolPromise = new sql.ConnectionPool(config)
-    .connect()
-    .then(pool => {
-        console.log("✅ SQL Server Connected to database:", config.database);
-        return pool;
-    })
-    .catch(err => {
-        console.error("❌ Database connection failed: ", err);
-        process.exit(1);
+const uri = `mongodb://${DB_SERVER}:${DB_PORT}/${DB_DATABASE}`;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-
-// Generic query function using async/await
-const query = async (queryString, params = []) => {
-    try {
-        const pool = await poolPromise;
-        const request = pool.request();
-        // Add input parameters dynamically
-        params.forEach((param, index) => {
-            request.input(`param${index}`, param);
-        });
-        const result = await request.query(queryString);
-        return result;
-    } catch (err) {
-        throw err;
-    }
+    console.log("✅ MongoDB connected to database:", DB_DATABASE);
+  } catch (err) {
+    console.error("❌ MongoDB connection failed:", err);
+    process.exit(1);
+  }
 };
 
-module.exports = { query };
+module.exports = connectDB;

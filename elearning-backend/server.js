@@ -14,7 +14,7 @@ const app = express();
 app.post(
   "/api/payment/webhook",
   express.raw({ type: "application/json" }),
-  require("./src/Controllers/paymentController.js").handlePaymentWebhook
+  require("./src/Controllers/paymentcontroller.js").handlePaymentWebhook
 );
 
 // Normal JSON parser for all other routes

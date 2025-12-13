@@ -5,7 +5,7 @@ const {
   handlePaymentWebhook,
   getInstructorRevenue,
   getAdminRevenue,
-} = require("../Controllers/paymentController.js");
+} = require("../Controllers/paymentcontroller.js");
 
 const router = express.Router();
 

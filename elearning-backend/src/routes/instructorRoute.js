@@ -8,7 +8,7 @@ const {
     updateProfile,
     updateProfilePicture,
     logout
-} = require ("../Controllers/instructorController.js");
+} = require ("../Controllers/instructorcontroller.js");
 
 const router = express.Router();
 

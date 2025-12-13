@@ -1,0 +1,73 @@
+# Backend configuration
+backend:
+  replicas: 1
+  image: your-backend-image:latest
+  port: 3000
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+  hpa:
+    enabled: false                    # Disable HPA for local testing
+    minReplicas: 1
+    maxReplicas: 2
+    cpuTarget: 50                     # matches hpa.yaml
+
+# Backend environment variables
+env:
+  backend:
+    NODE_ENV: "development"
+    PORT: 3000
+    DB_HOST: "localhost"
+    DB_PORT: 27017
+    DB_USER: "your-local-username"
+    DB_PASSWORD: "your-local-password"
+    DB_NAME: "elearning"
+
+# Frontend configuration
+frontend:
+  replicas: 1
+  image: your-frontend-image:latest
+  port: 80
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+  hpa:
+    enabled: false                    # Disable HPA for local testing
+    minReplicas: 1
+    maxReplicas: 2
+    cpuTarget: 50                     # matches hpa.yaml
+
+# Frontend environment variables
+  env:
+    frontend:
+      NODE_ENV: "development"
+      PORT: 80
+
+# MongoDB configuration (local)
+mongodb:
+  host: "localhost"
+  port: 27017
+  username: "your-local-username"
+  password: "your-local-password"
+  database: "elearning"
+  image: "mongo:7.0"                  # required for StatefulSet
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  path: /metrics
+  port: 3000
+
+# Ingress configuration for local testing
+ingress:
+  enabled: true
+  host: "localhost"
+  path: "/"

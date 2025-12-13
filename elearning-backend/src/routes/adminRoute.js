@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/auth.js");
 
 // Import admin controller functions
-const adminController = require("../Controllers/adminController.js");
+const adminController = require("../Controllers/admincontroller.js");
 
 // Admin login / create
 router.post("/create", adminController.createAdmin);
