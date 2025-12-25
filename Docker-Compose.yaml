@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   backend:
     build:
-      context: ./elearning-backend   # correct folder
+      context: ./elearning-backend    # backend folder
       dockerfile: Dockerfile
     ports:
       - "5731:5731"
@@ -14,7 +12,9 @@ services:
 
   frontend:
     build:
-      context: ./frontend           # correct folder
+      context: ./frontend             # frontend folder
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    environment:
+      NODE_ENV: production
