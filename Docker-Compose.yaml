@@ -14,8 +14,8 @@ services:
     restart: always
     user: "1000:1000"        # run container as non-root
     read_only: true           # filesystem read-only
-    tmpfs:
-      - /tmp                  # temporary files in memory
+    tmpfs:                    # temporary files in memory
+      - /tmp
     networks:
       - app-network
     logging:
