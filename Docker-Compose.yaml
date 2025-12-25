@@ -1,22 +1,51 @@
+version: "3.9"
+
 services:
   backend:
     build:
-      context: ./elearning-backend   # correct folder name
+      context: ./elearning-backend   # backend folder
       dockerfile: Dockerfile
     ports:
       - "5731:5731"
     volumes:
-      - ./elearning-backend/uploads:/app/uploads
+      - ./elearning-backend/uploads:/app/uploads:ro   # read-only mount for security
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production
+    restart: always
+    user: "1000:1000"          # run as non-root user
+    read_only: true            # filesystem read-only for security
+    tmpfs:
+      - /tmp                   # temporary storage in memory
+    networks:
+      - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   frontend:
     build:
-      context: ./frontend            # make sure this matches your frontend folder
+      context: ./frontend       # frontend folder
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    environment:
+      NODE_ENV: production
+    restart: always
+    user: "1000:1000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks:
+      - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-
-
-  # adding all security principles and add all priciple of docker security
+# Docker networks for isolation
+networks:
+  app-network:
+    driver: bridge
