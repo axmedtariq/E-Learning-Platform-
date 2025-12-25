@@ -8,7 +8,7 @@ services:
     ports:
       - "5731:5731"
     volumes:
-      - ./elearning-backend/uploads:/app/uploads:ro   # read-only volume
+      - ./elearning-backend/uploads:/app/uploads:ro   # read-only volume for security
     environment:
       NODE_ENV: production
     restart: always
@@ -33,10 +33,10 @@ services:
     environment:
       NODE_ENV: production
     restart: always
-    user: "1000:1000"
-    read_only: true
+    user: "1000:1000"        # run container as non-root
+    read_only: true           # filesystem read-only
     tmpfs:
-      - /tmp
+      - /tmp                  # temporary files in memory
     networks:
       - app-network
     logging:
