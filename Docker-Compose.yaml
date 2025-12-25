@@ -1,20 +1,22 @@
 services:
   backend:
     build:
-      context: ./elearning-backend    # backend folder
+      context: ./elearning-backend   # correct folder name
       dockerfile: Dockerfile
     ports:
       - "5731:5731"
     volumes:
       - ./elearning-backend/uploads:/app/uploads
     environment:
-      NODE_ENV: production
+      - NODE_ENV=production
 
   frontend:
     build:
-      context: ./frontend             # frontend folder
+      context: ./frontend            # make sure this matches your frontend folder
       dockerfile: Dockerfile
     ports:
       - "80:80"
-    environment:
-      NODE_ENV: production
+
+
+
+  # adding all security principles and add all priciple of docker security
