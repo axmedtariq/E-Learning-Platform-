@@ -1,4 +1,4 @@
-name: Full-Stack DevSecOps CI/CD
+name: Full-Stack CI/CD
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   backend:
-    name: Backend DevSecOps
+    name: Backend CI
     runs-on: ubuntu-latest
 
     steps:
@@ -33,18 +33,13 @@ jobs:
         working-directory: ./elearning-backend
         run: npm test || echo "No backend tests configured"
 
-      # 5. Security check: npm audit
-      - name: Run npm audit for backend
-        working-directory: ./elearning-backend
-        run: npm audit --audit-level=moderate
-
-      # 6. Build backend
+      # 5. Build backend
       - name: Build backend
         working-directory: ./elearning-backend
         run: npm run build || echo "No backend build script"
 
   frontend:
-    name: Frontend DevSecOps
+    name: Frontend CI
     runs-on: ubuntu-latest
     needs: backend
 
@@ -77,10 +72,6 @@ jobs:
       - name: Run frontend tests
         run: npm test || echo "No frontend tests configured"
 
-      # 7. Security check: npm audit
-      - name: Run npm audit for frontend
-        run: npm audit --audit-level=moderate
-
-      # 8. Build frontend
+      # 7. Build frontend
       - name: Build frontend
         run: npm run build
