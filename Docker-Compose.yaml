@@ -1,18 +1,20 @@
+version: "3.9"
+
 services:
   backend:
     build:
-      context: ./elearning-backend   # correct folder name
+      context: ./elearning-backend   # backend folder
       dockerfile: Dockerfile
     ports:
       - "5731:5731"
     volumes:
       - ./elearning-backend/uploads:/app/uploads
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production   # map style, correctly under environment
 
   frontend:
     build:
-      context: ./frontend            # make sure this matches your frontend folder
+      context: ./frontend           # frontend folder
       dockerfile: Dockerfile
     ports:
       - "80:80"

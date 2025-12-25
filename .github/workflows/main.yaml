@@ -33,7 +33,7 @@ jobs:
         working-directory: ./elearning-backend
         run: npm test || echo "No backend tests configured"
 
-      # 5. Optional backend build
+      # 5. Build backend
       - name: Build backend
         working-directory: ./elearning-backend
         run: npm run build || echo "No backend build script"
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Install frontend dependencies (Vite + TS + JSX)
+      # 3. Install frontend dependencies
       - name: Install frontend dependencies
         run: npm ci
 
@@ -68,17 +68,14 @@ jobs:
           echo '/// <reference types="vite/client" />' > src/vite-env.d.ts
           echo 'declare module "*.svg" { const content: string; export default content }' >> src/vite-env.d.ts
 
-      # 6. Run frontend tests (optional)
+      # 6. Run frontend tests
       - name: Run frontend tests
         run: npm test || echo "No frontend tests configured"
 
-      # 7. Build frontend (Vite + TS)
+      # 7. Build frontend
       - name: Build frontend
         run: npm run build
 
-      # 8. Upload frontend build artifact
-      - name: Upload frontend build
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: ./dist
+
+
+## fixing all the problems 
