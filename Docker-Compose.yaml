@@ -16,3 +16,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+
+
+
+  # adding all security principles 
