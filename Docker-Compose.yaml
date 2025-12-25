@@ -12,10 +12,10 @@ services:
     environment:
       NODE_ENV: production
     restart: always
-    user: "1000:1000"        # run container as non-root
+    user: "1000:1000"        # run as non-root
     read_only: true           # filesystem read-only
     tmpfs:
-      - /tmp                  # temporary files in memory
+      - /tmp
     networks:
       - app-network
     logging:
@@ -45,7 +45,6 @@ services:
         max-size: "10m"
         max-file: "3"
 
-# Docker network for isolation
 networks:
   app-network:
     driver: bridge
