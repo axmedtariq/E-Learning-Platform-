@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   backend:
     build:
@@ -7,16 +8,13 @@ services:
     ports:
       - "5731:5731"
     volumes:
-      - ./elearning-backend/uploads:/app/uploads
+      - ./elearning-backend/uploads:/app/uploads   # keep as-is or add :ro if needed
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production   # fixed map style
 
   frontend:
     build:
-      context: ./frontend            # make sure this matches your frontend folder
+      context: ./frontend            # correct frontend folder
       dockerfile: Dockerfile
     ports:
       - "80:80"
-
-
-
