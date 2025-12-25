@@ -3,12 +3,12 @@ version: "3.9"
 services:
   backend:
     build:
-      context: ./elearning-backend   # backend folder
+      context: ./elearning-backend
       dockerfile: Dockerfile
     ports:
       - "5731:5731"
     volumes:
-      - ./elearning-backend/uploads:/app/uploads:ro   # read-only volume for security
+      - ./elearning-backend/uploads:/app/uploads:ro   # read-only volume
     environment:
       NODE_ENV: production
     restart: always
@@ -26,17 +26,17 @@ services:
 
   frontend:
     build:
-      context: ./frontend           # frontend folder
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "80:80"
     environment:
       NODE_ENV: production
     restart: always
-    user: "1000:1000"        # run container as non-root
-    read_only: true           # filesystem read-only
+    user: "1000:1000"
+    read_only: true
     tmpfs:
-      - /tmp                  # temporary files in memory
+      - /tmp
     networks:
       - app-network
     logging:
