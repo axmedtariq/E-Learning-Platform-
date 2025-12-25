@@ -75,3 +75,7 @@ jobs:
       # 7. Build frontend
       - name: Build frontend
         run: npm run build
+
+
+
+## fixing all the problems 
