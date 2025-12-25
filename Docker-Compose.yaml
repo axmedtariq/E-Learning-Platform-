@@ -12,10 +12,10 @@ services:
     environment:
       NODE_ENV: production
     restart: always
-    user: "1000:1000"        # run as non-root
+    user: "1000:1000"        # run container as non-root
     read_only: true           # filesystem read-only
     tmpfs:
-      - /tmp
+      - /tmp                  # temporary files in memory
     networks:
       - app-network
     logging:
