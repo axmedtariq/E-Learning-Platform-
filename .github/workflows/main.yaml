@@ -33,12 +33,12 @@ jobs:
         working-directory: ./elearning-backend
         run: npm test || echo "No backend tests configured"
 
-      # 5. Static Application Security Testing (SAST) using npm audit
+      # 5. Security check: npm audit
       - name: Run npm audit for backend
         working-directory: ./elearning-backend
         run: npm audit --audit-level=moderate
 
-      # 6. Optional backend build
+      # 6. Build backend
       - name: Build backend
         working-directory: ./elearning-backend
         run: npm run build || echo "No backend build script"
@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Install frontend dependencies (Vite + TS + JSX)
+      # 3. Install frontend dependencies
       - name: Install frontend dependencies
         run: npm ci
 
@@ -73,14 +73,14 @@ jobs:
           echo '/// <reference types="vite/client" />' > src/vite-env.d.ts
           echo 'declare module "*.svg" { const content: string; export default content }' >> src/vite-env.d.ts
 
-      # 6. Run frontend tests (optional)
+      # 6. Run frontend tests
       - name: Run frontend tests
         run: npm test || echo "No frontend tests configured"
 
-      # 7. Static Application Security Testing (SAST) using npm audit
+      # 7. Security check: npm audit
       - name: Run npm audit for frontend
         run: npm audit --audit-level=moderate
 
-      # 8. Build frontend (Vite + TS)
+      # 8. Build frontend
       - name: Build frontend
         run: npm run build
